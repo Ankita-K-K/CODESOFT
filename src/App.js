@@ -1,18 +1,19 @@
 const express = require("express");
+const { connectDB } = require("./config/database");
+
 const app = express();
 
-app.use("/secretData", (req, res)=>{
-    res.send("No secret Data 😂🤣");
+connectDB().then(() => {
+    console.log("Database connected successfully...");
+    app.listen(3000, ()=>{
+        console.log("Server is listening to port 3000...")
+    })
+}).catch((err)=>{
+    console.log("Database can't be connected");
 })
 
-app.use("/hello", (req, res)=>{
-    res.send("Hello Namaste Konnichiva Bonjour Vanakam Namaskara Namaskaram")
-})
-
-app.use("/", (req, res) => {
-    res.send("Hello from express server");
-})
-
-app.listen(3000, ()=>{
-    console.log("Server listening to port 3000...")
+app.use("/", (err, req, res, next) => {
+    if(err){
+        res.status(500).send("Oops! something went wrong :(")
+    }
 })
