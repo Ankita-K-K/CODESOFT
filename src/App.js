@@ -37,7 +37,18 @@ app.delete("/user", async (req, res)=>{
     }catch(e){
         res.status(500).send("something went wrong");
     }
-})
+});
+
+app.patch("/user", async (req, res) =>{
+    const userId = req.body.userId;
+    const data = req.body
+    try{
+        const updatedUser = User.findByIdAndUpdate(userId, data);
+        res.send("User data updated successfully");
+    }catch(e){
+        res.status(500).send("Something went wrong");
+    }
+});
 
 
 app.use("/", (err, req, res, next) => {
