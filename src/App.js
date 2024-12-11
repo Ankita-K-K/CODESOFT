@@ -13,6 +13,20 @@ app.post("/signup", async(req, res) => {
     }catch(e){
         res.status(500).send("SignUp Error: " + e.message);
     }
+});
+
+app.get("/user", (req, res)=>{
+    const userEmail = req.body.emailId;
+    try{
+        const user = User.findOne({emailId: userEmail});
+        if(user.length === 0){
+            res.status(404).send("User not found");
+        }else{
+            res.send(user);
+        }
+    }catch(e){
+        res.status(400).send("Something went wrong");
+    }
 })
 
 
