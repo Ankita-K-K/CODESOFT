@@ -15,10 +15,10 @@ app.post("/signup", async(req, res) => {
     }
 });
 
-app.get("/user", (req, res)=>{
+app.get("/user", async (req, res)=>{
     const userEmail = req.body.emailId;
     try{
-        const user = User.findOne({emailId: userEmail});
+        const user = await User.findOne({emailId: userEmail});
         if(user.length === 0){
             res.status(404).send("User not found");
         }else{
@@ -26,6 +26,16 @@ app.get("/user", (req, res)=>{
         }
     }catch(e){
         res.status(400).send("Something went wrong");
+    }
+});
+
+app.delete("/user", async (req, res)=>{
+    const userId = req.body.userId;
+    try{
+        const deletedUser = await User.findByIdAndDelete(userId);
+        res.send("User deleted successfully");
+    }catch(e){
+        res.status(500).send("something went wrong");
     }
 })
 
